@@ -77,10 +77,12 @@ spec:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 EOF
 echo_stdout "Getting vz status"
-vz status | grep Ready
-if [ "$?" != "0" ]; then
-  echo_stderr "vz status execution is unsuccessful"
+vz status
+vz status | grep 'State: Ready'
+if [[ $? != 0 ]]; then
+    echo_stderr "VZ installation is not successful"
 else
-  echo_stdout "vz installation is successful"
-  vz status 
+    echo_stdout "VZ installation completed
 fi
+    
+
