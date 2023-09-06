@@ -82,7 +82,6 @@ vz status | grep 'State: Ready'
 if [[ $? != 0 ]]; then
     echo_stderr "VZ installation is not successful"
 else
-    echo_stdout "VZ installation completed
-fi
-    
+    echo_stdout "VZ installation is successful"
+fi 
 
