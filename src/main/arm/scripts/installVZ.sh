@@ -72,3 +72,4 @@ spec:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 EOF
 
+vz status
