@@ -73,3 +73,4 @@ spec:
 EOF
 
 vz status
+sleep 30m
