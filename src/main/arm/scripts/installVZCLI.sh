@@ -17,6 +17,7 @@ END
 # Main script
 export script="${BASH_SOURCE[0]}"
 export scriptDir="$(cd "$(dirname "${script}")" && pwd)"
+source ${scriptDir}/utility.sh
 
 VZ_CLI_DOWNLOAD=$1
 
