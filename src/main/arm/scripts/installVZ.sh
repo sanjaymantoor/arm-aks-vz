@@ -36,13 +36,9 @@ function validate_input() {
 
 # Connect to AKS cluster
 function connect_aks_cluster() {
-    echo_stdout "Connecting to AKS cluster ${AKS_CLUSTER_NAME}"
+    echo_stdout "Connecting to AKS cluster ${AKS_CLUSTER_NAME} for the resource group ${AKS_CLUSTER_RESOURCEGROUP_NAME}"
     state=$(az aks get-credentials --resource-group ${AKS_CLUSTER_RESOURCEGROUP_NAME} --name ${AKS_CLUSTER_NAME} --overwrite-existing$)
-    if [ "$state" != "0" ]; then
-        echo_stderr "Failed to connect AKS cluster  ${AKS_CLUSTER_NAME}"
-    else
-        echo_stdout "$@"
-    fi
+    echo_stdout ${state}
 }
 # Main script
 export script="${BASH_SOURCE[0]}"
