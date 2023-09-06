@@ -74,4 +74,3 @@ EOF
 
 output=`vz status`
 echo $output
-echo $output > $AZ_SCRIPTS_OUTPUT_PATH
