@@ -84,4 +84,3 @@ else
   echo_stdout "vz installation is successful"
   vz status 
 fi
-exit 1
