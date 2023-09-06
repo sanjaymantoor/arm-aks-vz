@@ -54,7 +54,7 @@ connect_aks_cluster
 export KUBECONFIG=$HOME/.kube/config
 echo_stdout "KUBECONFIG is set to $KUBECONFIG"
 echo_stdout "Installing vz using vz cli"
-state=$(vz install -f - <<EOF
+vz install -f - <<EOF
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -79,15 +79,12 @@ spec:
             service:
               annotations:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-EOF)
-if [ "$state" != "0" ]; then
-        echo_stderr "VZ installation failed"
-else
-        echo_stdout "$@"
-fi
-state=$(vz status)
-if [ "$state" != "0" ]; then
+EOF
+
+vz status | grep Ready
+if [ "$?" != "0" ]; then
   echo_stderr "vz status execution is unsuccessful"
 else
-  echo_stdout "$@"
+  echo_stdout "vz installation is successful"
+  vz status 
 fi
