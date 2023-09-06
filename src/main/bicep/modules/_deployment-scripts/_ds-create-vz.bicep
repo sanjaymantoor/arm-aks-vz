@@ -7,11 +7,12 @@ param acrName string = ''
 param location string
 param identity object = {}
 param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-1.6.5-linux-amd64.tar.gz'
+param azCliVersion string = ''
+param utcValue string = utcNow()
 var const_scriptLocation = uri(_artifactsLocation, 'scripts/')
 var const_installVZCLI = 'installVZCLI.sh'
 var const_installVZ = 'installVZ.sh'
-param azCliVersion string = ''
-param utcValue string = utcNow()
+var const_utility = 'utility.sh'
 
 resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     name: 'ds-install-VZ'
@@ -37,6 +38,7 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     primaryScriptUri: uri(const_scriptLocation, '${const_installVZ}${_artifactsLocationSasToken}')
 	supportingScriptUris: [
 		uri(const_scriptLocation, '${const_installVZCLI}${_artifactsLocationSasToken}')
+		uri(const_scriptLocation, '${const_utility}${_artifactsLocationSasToken}')
 	]
     cleanupPreference: 'OnSuccess'
     retentionInterval: 'P1D'
