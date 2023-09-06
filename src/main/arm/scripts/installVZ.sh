@@ -80,7 +80,7 @@ spec:
               annotations:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 EOF
-
+echo_stdout "Getting vz status"
 vz status | grep Ready
 if [ "$?" != "0" ]; then
   echo_stderr "vz status execution is unsuccessful"
