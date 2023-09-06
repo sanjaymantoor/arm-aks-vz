@@ -74,3 +74,4 @@ EOF
 
 output=`vz status`
 echo $output
+exit 1
