@@ -72,5 +72,6 @@ spec:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 EOF
 
-vz status
-sleep 30m
+output=`vz status`
+echo $output
+echo $output > $AZ_SCRIPTS_OUTPUT_PATH
