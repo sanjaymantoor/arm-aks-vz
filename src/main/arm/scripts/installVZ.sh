@@ -1,4 +1,5 @@
 echo "Script ${0} starts"
+source utility.sh
 
 #Function to display usage message
 function usage() {
@@ -36,7 +37,13 @@ function validate_input() {
 
 # Connect to AKS cluster
 function connect_aks_cluster() {
-    az aks get-credentials --resource-group ${AKS_CLUSTER_RESOURCEGROUP_NAME} --name ${AKS_CLUSTER_NAME} --overwrite-existing
+    echo_stdout "Connecting to AKS cluster ${AKS_CLUSTER_NAME}"
+    state=$(az aks get-credentials --resource-group ${AKS_CLUSTER_RESOURCEGROUP_NAME} --name ${AKS_CLUSTER_NAME} --overwrite-existing$)
+    if [ "$state" != "0" ]; then
+        echo_stderr "Failed to connect AKS cluster  ${AKS_CLUSTER_NAME}"
+    else
+        echo_stdout "$@"
+    fi
 }
 # Main script
 export script="${BASH_SOURCE[0]}"
@@ -45,6 +52,8 @@ export scriptDir="$(cd "$(dirname "${script}")" && pwd)"
 
 connect_aks_cluster
 export KUBECONFIG=$HOME/.kube/config
+echo_stdout "KUBECONFIG is set to $KUBECONFIG"
+echo_stdout "Installing vz using vz cli"
 vz install -f - <<EOF
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -72,6 +81,9 @@ spec:
                 service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 EOF
 
-output=`vz status`
-echo $output
-exit 1
+state=$(vz status)
+if [ "$state" != "0" ]; then
+  echo_stderr "vz status execution is unsuccessful"
+else
+  echo_stdout "$@"
+fi
