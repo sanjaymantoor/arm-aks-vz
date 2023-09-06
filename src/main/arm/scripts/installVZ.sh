@@ -1,5 +1,4 @@
 echo "Script ${0} starts"
-source utility.sh
 
 #Function to display usage message
 function usage() {
@@ -48,6 +47,7 @@ function connect_aks_cluster() {
 # Main script
 export script="${BASH_SOURCE[0]}"
 export scriptDir="$(cd "$(dirname "${script}")" && pwd)"
+source ${scriptDir}/utility.sh
 ./installVZCLI.sh ${VZ_CLI_DOWNLOAD}
 
 connect_aks_cluster
