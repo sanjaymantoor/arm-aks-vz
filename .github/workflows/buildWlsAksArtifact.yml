@@ -48,7 +48,7 @@ jobs:
             - name: Checkout ${{ env.aksRepoUserName }}/arm-aks-vz
               uses: actions/checkout@v2
               with:
-                path: .
+                path: arm-aks-vz
             - name: List Directories
               run: ls
             - name: Build and test arm-aks-vz
