@@ -52,7 +52,7 @@ jobs:
             - name: List Directories
               run: ls
             - name: Build and test arm-aks-vz
-              run: mvn -Pbicep -Passembly clean install -Ptemplate-validation-tests --file arm-aks-vz/pom.xml
+              run: mvn -Pbicep -Passembly clean install -Ptemplate-validation-tests --file arm-aks-vz/arm-aks-vz/pom.xml
             - name: Generate artifact file name and path
               id: artifact_file
               run: |
