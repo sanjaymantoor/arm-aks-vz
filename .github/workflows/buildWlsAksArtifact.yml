@@ -50,7 +50,7 @@ jobs:
               with:
                 path: arm-aks-vz
             - name: List Directories
-              run: ls
+              run: ls ; find . -name Test-AzTemplate.sh
             - name: Build and test arm-aks-vz
               run: mvn -Pbicep -Passembly clean install -Ptemplate-validation-tests --file arm-aks-vz/pom.xml
             - name: Generate artifact file name and path
