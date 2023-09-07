@@ -56,8 +56,8 @@ jobs:
             - name: Generate artifact file name and path
               id: artifact_file
               run: |
-                version=$(awk '/<version>[^<]+<\/version>/{gsub(/<version>|<\/version>/,"",$1);print $1;exit;}' pom.xml)
-                artifactName=wls-on-aks-azure-marketplace-$version-arm-assembly
+                version=$(awk '/<version>[^<]+<\/version>/{gsub(/<version>|<\/version>/,"",$1);print $1;exit;}' arm-aks-vz/pom.xml)
+                artifactName=arm-aks-vz-marketplace-$version-arm-assembly
                 unzip target/$artifactName.zip -d target/$artifactName
                 echo "##[set-output name=artifactName;]${artifactName}"
                 echo "##[set-output name=artifactPath;]target/$artifactName"
