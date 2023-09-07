@@ -3,7 +3,6 @@ param _artifactsLocation string = deployment().properties.templateLink.uri
 param _artifactsLocationSasToken string = ''
 param aksClusterRGName string = ''
 param aksClusterName string = ''
-param acrName string = ''
 param location string
 param identity object = {}
 param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-1.6.5-linux-amd64.tar.gz'
