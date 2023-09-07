@@ -45,21 +45,21 @@ jobs:
                 unzip arm-template-toolkit.zip -d arm-ttk
             - name: Build azure-javaee-iaas
               run: mvn -DskipTests clean install --file azure-javaee-iaas/pom.xml
-            - name: Checkout ${{ env.aksRepoUserName }}/weblogic-azure
+            - name: Checkout ${{ env.aksRepoUserName }}/arm-aks-vz
               uses: actions/checkout@v2
               with:
                 path: .
-            - name: Build and test weblogic-azure/weblogic-azure-aks
+            - name: Build and test weblogic-arm-aks-vz
               run: mvn -Pbicep -Passembly clean install -Ptemplate-validation-tests --file pom.xml
             - name: Generate artifact file name and path
               id: artifact_file
               run: |
-                version=$(awk '/<version>[^<]+<\/version>/{gsub(/<version>|<\/version>/,"",$1);print $1;exit;}' weblogic-azure/weblogic-azure-aks/pom.xml)
+                version=$(awk '/<version>[^<]+<\/version>/{gsub(/<version>|<\/version>/,"",$1);print $1;exit;}' arm-aks-vz/pom.xml)
                 artifactName=wls-on-aks-azure-marketplace-$version-arm-assembly
-                unzip weblogic-azure/weblogic-azure-aks/target/$artifactName.zip -d weblogic-azure/weblogic-azure-aks/target/$artifactName
+                unzip arm-aks-vz/target/$artifactName.zip -d arm-aks-vz/target/$artifactName
                 echo "##[set-output name=artifactName;]${artifactName}"
-                echo "##[set-output name=artifactPath;]weblogic-azure/weblogic-azure-aks/target/$artifactName"
-            - name: Archive weblogic-azure/weblogic-azure-aks template
+                echo "##[set-output name=artifactPath;]arm-aks-vz/target/$artifactName"
+            - name: Archive arm-aks-vz template
               uses: actions/upload-artifact@v1
               if: success()
               with:
