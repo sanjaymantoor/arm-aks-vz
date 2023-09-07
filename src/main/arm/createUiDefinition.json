@@ -129,6 +129,48 @@
                                 },
                                 "osPlatform": "Linux",
                                 "count": "[steps('section_aks').clusterInfo.aksNodeCount]"
+                            },
+                            {
+                                "name": "aksVersion",
+                                "type": "Microsoft.Common.DropDown",
+                                "label": "AKS Versions",
+                                "placeholder": "",
+                                "defaultValue": ["1.26"],
+                                "toolTip": "Select AKS version",
+                                "multiselect": false,
+                                "selectAll": false,
+                                "filter": true,
+                                "filterPlaceholder": "Filter items ...",
+                                "multiLine": true,
+                                "defaultDescription": "AKS Versions",
+                                "constraints": {
+                                    "allowedValues": [
+                                      {
+                                        "label": "1.26",
+                                        "description": "The value to select for option 1.",
+                                        "value": "one"
+                                      }
+                                    ],
+                                    "required": true
+                                  },
+                                  "visible": true
+                            },
+                            {
+                                "name": "crdFile",
+                                "type": "Microsoft.Common.FileUpload",
+                                "label": "CRD file upload",
+                                "toolTip": "Upload crd file",
+                                "constraints": {
+                                    "required": true,
+                                    "accept": ".doc,.docx,.xml,application/msword"
+                                },
+                                "options": {
+                                    "multiple": false,
+                                    "uploadMode": "file",
+                                    "openMode": "text",
+                                    "encoding": "UTF-8"
+                                },
+                                "visible": true
                             }
                         ]
                     }
