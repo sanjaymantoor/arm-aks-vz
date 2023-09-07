@@ -1,0 +1,19 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    // This file is used by CI/CD workflows. It allows the workflows to provide parameters when invoking the offer from the command line.
+    "parameters": {
+        "_artifactsLocation": {
+            "value": "https://raw.githubusercontent.com/#gitUserName#/weblogic-azure/#testbranchName#/arm-aks-vz/src/main/arm/"
+        },
+        "aksAgentPoolNodeCount": {
+            "value": 3
+        },
+        "vmSize": {
+            "value": "Standard_DS2_v2"
+        },
+        "location": {
+            "value": "#location#"
+        }
+    }
+}
