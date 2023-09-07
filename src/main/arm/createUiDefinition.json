@@ -1,0 +1,147 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [
+            {
+                "name": "infoForBeforeDeployment",
+                "type": "Microsoft.Common.InfoBox",
+                "visible": true,
+                "options": {
+                    "icon": "Info",
+                    "text": "The Azure identity deploying this offer must have one of the following two sets of Azure role-based access control roles:<br> <li><a href='https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor'>Contributor</a> <b>and</b> <a href='https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#user-access-administrator'>User Access Administrator</a> of the current subscription.</li><li><a href='https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner'>Owner</a> of the current subscription.</li>"
+                }
+            },
+            {
+                "name": "howToReportIssues",
+                "type": "Microsoft.Common.Section",
+                "label": "Report issues, get help, and share feedback",
+                "elements": [
+                    {
+                        "name": "help",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": true,
+                        "options": {
+                            "text": "See the documentation for this offer in the Oracle WebLogic Kubernetes Operator.",
+                            "link": {
+                                "label": "Offer documentation",
+                                "uri": "https://aka.ms/wls-aks-docs"
+                            }
+                        }
+                    },
+                    {
+                        "name": "howToReportIssueText",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": true,
+                        "options": {
+                            "text": "If you encounter problems during the deployment of Oracle WebLogic Server, report them here.",
+                            "link": {
+                                "label": "Issue tracker",
+                                "uri": "https://aka.ms/arm-oraclelinux-wls-issues?version=${project.version}"
+                            }
+                        }
+                    },
+                    {
+                        "name": "howToJoinSlack",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": true,
+                        "options": {
+                            "text": "If you want to interact directly with the Oracle WebLogic community, join the public Slack channel named 'oracle-weblogic'.",
+                            "link": {
+                                "label": "Join Slack",
+                                "uri": "https://aka.ms/arm-oraclelinux-wls-slack"
+                            }
+                        }
+                    },
+                    {
+                        "name": "survey",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": true,
+                        "options": {
+                            "text": "To get free help with Azure migration from the development team, fill out this survey.",
+                            "link": {
+                                "label": "Take survey",
+                                "uri": "https://aka.ms/wls-on-azure-survey"
+                            }
+                        }
+                    }
+                ],
+                "visible": true
+            }
+        ],
+        "steps": [
+            {
+                "name": "section_aks",
+                "label": "AKS",
+                "subLabel": {
+                    "preValidation": "Provide required info for AKS cluster configuration",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "AKS",
+                "elements": [
+                    {
+                        "name": "clusterInfo",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Azure Kubernetes Service",
+                        "elements": [
+                            {
+                                "name": "aksSupportedVersionTextBlock",
+                                "type": "Microsoft.Common.TextBlock",
+                                "visible": "[bool(steps('section_aks').clusterInfo.createAKSCluster)]",
+                                "options": {
+                                    "icon": "Info",
+                                    "text": "AKS supports a range of Kubernetes versions.  This offer is tested with a specific Kubernetes version known to work with WebLogic Server on AKS; click 'Learn more' to find the version information.",
+                                    "link": {
+                                        "label": "Learn more",
+                                        "uri": "https://aka.ms/wls-aks-well-tested-version"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "aksNodeCount",
+                                "type": "Microsoft.Common.Slider",
+                                "min": 1,
+                                "max": 1000,
+                                "label": "Node count",
+                                "defaultValue": 3,
+                                "showStepMarkers": false,
+                                "toolTip": "The number of nodes that should be created along with the cluster. You will be able to resize the cluster later.",
+                                "constraints": {
+                                    "required": true
+                                },
+                                "visible": "[bool(steps('section_aks').clusterInfo.createAKSCluster)]"
+                            },
+                            {
+                                "name": "nodeVMSizeSelector",
+                                "type": "Microsoft.Compute.SizeSelector",
+                                "label": "Node size",
+                                "toolTip": "The size of virtual machine to provision.",
+                                "recommendedSizes": [
+                                    "Standard_DS2_v2"
+                                ],
+                                "constraints": {
+                                    "numAvailabilityZonesRequired": 3,
+                                    "zone": "3"
+                                },
+                                "options": {
+                                    "hideDiskTypeFilter": false
+                                },
+                                "osPlatform": "Linux",
+                                "count": "[steps('section_aks').clusterInfo.aksNodeCount]"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "outputs": {
+            "acrName": "[last(split(steps('section_aks').imageInfo.oracleAcrSelector.id, '/'))]",
+            "aksAgentPoolNodeCount": "[steps('section_aks').clusterInfo.aksNodeCount]",
+            "aksClusterName": "[last(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'))]",
+            "aksClusterRGName": "[last(take(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'), 5))]",
+            "location": "[location()]",
+            "vmSize": "[steps('section_aks').clusterInfo.nodeVMSizeSelector]"
+        }
+    }
+}
