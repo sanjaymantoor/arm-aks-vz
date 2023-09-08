@@ -45,7 +45,7 @@ param enableAzureMonitoring bool = false
 @description('Name of an existing AKS cluster.')
 param aksClusterName string = 'aks-contoso'
 @description('The AKS version.')
-param aksVersion string = 'default'
+param aksVersion string = '1.26'
 @description('true to create a new AKS cluster.')
 param createAKSCluster bool = true
 param location string
