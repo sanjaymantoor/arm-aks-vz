@@ -118,7 +118,7 @@
                                 "label": "Node size",
                                 "toolTip": "The size of virtual machine to provision.",
                                 "recommendedSizes": [
-                                    "Standard_DS2_v2"
+                                    "Standard_B8ms"
                                 ],
                                 "constraints": {
                                     "numAvailabilityZonesRequired": 3,
