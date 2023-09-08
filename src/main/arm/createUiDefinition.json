@@ -137,8 +137,8 @@
                                 "placeholder": "",
                                 "defaultValue": ["1.26"],
                                 "toolTip": "Select AKS version",
-                                "multiselect": false,
-                                "selectAll": false,
+                                "multiselect": true,
+                                "selectAll": true,
                                 "filter": true,
                                 "filterPlaceholder": "Filter items ...",
                                 "multiLine": true,
@@ -147,8 +147,8 @@
                                     "allowedValues": [
                                       {
                                         "label": "1.26",
-                                        "description": "The value to select for option 1.",
-                                        "value": "one"
+                                        "description": "AKS Versions",
+                                        "value": "1.26"
                                       }
                                     ],
                                     "required": true
