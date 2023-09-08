@@ -85,3 +85,11 @@ else
     echo_stdout "VZ installation is successful"
 fi 
 
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+echo "VZ login details"
+echo "Username: verrazzano"
+echo "Password:"
+kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
