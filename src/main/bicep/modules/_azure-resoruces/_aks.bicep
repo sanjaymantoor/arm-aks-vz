@@ -16,7 +16,7 @@ param aksAgentPoolName string = 'agentpool'
 @description('The number of nodes that should be created along with the cluster. You will be able to resize the cluster later.')
 param aksAgentPoolNodeCount int = 3
 @description('The size of the virtual machines that will form the nodes in the cluster. This cannot be changed after creating the cluster')
-param aksAgentPoolVMSize string = 'Standard_DS2_v2'
+param aksAgentPoolVMSize string = 'Standard_B8ms'
 @description('Prefix for cluster name. Only The name can contain only letters, numbers, underscores and hyphens. The name must start with letter or number.')
 param aksVersion string = 'default'
 @description('In addition to the CPU and memory metrics included in AKS by default, you can enable Container Insights for more comprehensive data on the overall performance and health of your cluster. Billing is based on data ingestion and retention settings.')
