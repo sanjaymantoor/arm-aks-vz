@@ -55,12 +55,13 @@
 	export KUBECONFIG=$HOME/.kube/config
 	echo_stdout "KUBECONFIG is set to $KUBECONFIG"
 	echo_stdout "Installing vz using vz cli"
-	echo "CRD File supplied"
-	echo ${CRD_FILE_DATA}
-
-	vz install -f - <<EOF 
-	${CRD_FILE_DATA}
-	EOF
+	echo "CRD File downloading from ${CRD_FILE_DATA}"
+	#CRD_FILE_DATA=https://raw.githubusercontent.com/sanjaymantoor/arm-aks-vz/master/samples/crd-pvc.yaml
+	wget $CRD_FILE_DATA
+	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
+	vz install -f $fileName
+	
+	sleep 2m
 	echo_stdout "Getting vz status"
 	vz status
 	vz status | grep 'State: Ready'
@@ -70,9 +71,10 @@
 		echo_stdout "VZ installation is successful"
 	fi 
 
-	curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+	curl -LOqf "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" | true
 	./kubectl version
-	echo "VZ login details"
-	echo "Username: verrazzano"
-	echo "Password:"
+	echo_stdout "VZ login details"
+	echo_stdout "Username: verrazzano"
+	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo
+ 
