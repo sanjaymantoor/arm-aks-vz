@@ -65,10 +65,10 @@
 	vz status | grep 'Available Components: 26/26'
 	while [ $? != 0 ] && [ $attempt -lt 10 ]; do
 		 echo_stdout "Waiting for vz installation complete"
-		 sleep 30s
+		 sleep 1m
 		 attempt=`expr $attempt + 1`
 		 echo_stdout "Getting vz status"
-		 out=`vz status`
+		 vz status >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 		 echo_stdout $out
 		 vz status | grep 'Available Components: 26/26'
 	done
@@ -80,9 +80,9 @@
 	fi 
 
 	curl -LOqf "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" | true
-	./kubectl version
+	./kubectl version >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	echo_stdout "VZ login details"
 	echo_stdout "Username: verrazzano"
 	echo_stdout "Password:"
-	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo
+	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo_stdout
  	sleep 1m
