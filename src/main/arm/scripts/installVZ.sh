@@ -61,10 +61,18 @@
 	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
 	vz install -f $fileName
 	
-	sleep 2m
+	attempt=1
+	vz status | grep 'State: Ready'
+	while [ $? != 0 ] && [ $attempt -lt 10 ]; do
+		 echo_stdout "Waiting for vz installation complete"
+		 sleep 30s
+		 attempt=`expr $attempt + 1`
+		 vz status | grep 'State: Ready'
+	done
+	
 	echo_stdout "Getting vz status"
 	vz status
-	vz status | grep 'State: Ready'
+		
 	if [[ $? != 0 ]]; then
 		echo_stderr "VZ installation is not successful"
 	else
