@@ -60,7 +60,7 @@
 	wget $CRD_FILE_DATA
 	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
 	vz install -f $fileName
-	
+	sleep 3m
 	attempt=1
 	vz status | grep 'State: Ready'
 	while [ $? != 0 ] && [ $attempt -lt 10 ]; do
