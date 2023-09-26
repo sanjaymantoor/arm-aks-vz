@@ -59,7 +59,7 @@
 	#CRD_FILE_DATA=https://raw.githubusercontent.com/sanjaymantoor/arm-aks-vz/master/samples/crd-pvc.yaml
 	wget $CRD_FILE_DATA
 	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
-	vz install -f $fileName
+	vz install -f $fileName >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
 	sleep 3m
 	attempt=1
 	vz status | grep 'Available Components: 26/26'
