@@ -62,17 +62,16 @@
 	vz install -f $fileName
 	sleep 3m
 	attempt=1
-	vz status | grep 'State: Ready'
+	vz status | grep 'Available Components: 26/26'
 	while [ $? != 0 ] && [ $attempt -lt 10 ]; do
 		 echo_stdout "Waiting for vz installation complete"
 		 sleep 30s
 		 attempt=`expr $attempt + 1`
-		 vz status | grep 'State: Ready'
+		 echo_stdout "Getting vz status"
+		 vz status
+		 vz status | grep 'Available Components: 26/26'
 	done
 	
-	echo_stdout "Getting vz status"
-	vz status
-		
 	if [[ $? != 0 ]]; then
 		echo_stderr "VZ installation is not successful"
 	else
