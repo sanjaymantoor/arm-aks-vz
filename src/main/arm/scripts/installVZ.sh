@@ -68,7 +68,8 @@
 		 sleep 30s
 		 attempt=`expr $attempt + 1`
 		 echo_stdout "Getting vz status"
-		 vz status
+		 out=`vz status`
+		 echo_stdout $out
 		 vz status | grep 'Available Components: 26/26'
 	done
 	
