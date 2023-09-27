@@ -60,7 +60,7 @@
 	wget $CRD_FILE_DATA
 	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
 	vz install -f $fileName >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
-	sleep 3m
+	sleep 5m
 	attempt=1
 	vz status | grep 'Available Components: 26/26'
 	while [ $? != 0 ] && [ $attempt -lt 10 ]; do
@@ -85,4 +85,4 @@
 	echo_stdout "Username: verrazzano"
 	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo_stdout
- 	sleep 1m
+ 	sleep 3m
