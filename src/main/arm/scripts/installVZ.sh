@@ -85,4 +85,4 @@
 	echo_stdout "Username: verrazzano"
 	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo_stdout
- 	sleep 3m
+ 	sleep 5m
