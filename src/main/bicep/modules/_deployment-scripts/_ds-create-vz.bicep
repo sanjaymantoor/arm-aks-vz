@@ -41,7 +41,11 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
 	]
     cleanupPreference: 'OnSuccess'
     retentionInterval: 'P1D'
-    forceUpdateTag: utcValue
+    forceUpdateTag: utcValue,
+    "scriptContent": "
+        $DeploymentScriptOutputs['text'] = `cat ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log`
+    "    
     }
 }
 
+output result string = deploymentScript.properties.outputs.text

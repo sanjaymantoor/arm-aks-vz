@@ -77,6 +77,6 @@
 	echo_stdout "VZ login details" 
 	echo_stdout "Username: verrazzano"
 	echo_stdout "Password:"
-	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo_stdout
+	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	sleep 5m
 	
