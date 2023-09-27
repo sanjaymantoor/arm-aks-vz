@@ -59,20 +59,13 @@
 	#CRD_FILE_DATA=https://raw.githubusercontent.com/sanjaymantoor/arm-aks-vz/master/samples/crd-pvc.yaml
 	wget $CRD_FILE_DATA
 	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
-	vz install -f $fileName >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
+	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
 	sleep 5m
-	attempt=1
-	vz status | grep 'Available Components: 26/26'
-	while [ $? != 0 ] && [ $attempt -lt 10 ]; do
-		 echo_stdout "Waiting for vz installation complete"
-		 sleep 1m
-		 attempt=`expr $attempt + 1`
-		 echo_stdout "Getting vz status"
-		 vz status >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
-		 echo_stdout $out
-		 vz status | grep 'Available Components: 26/26'
-	done
-	
+	echo_stdout "Getting vz status"
+	vz status >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
+	status=`vz status`
+	echo_stdout ${status}
+	vz status | grep 'State: Ready'
 	if [[ $? != 0 ]]; then
 		echo_stderr "VZ installation is not successful"
 	else
@@ -80,9 +73,10 @@
 	fi 
 
 	curl -LOqf "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" | true
-	./kubectl version >>${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
-	echo_stdout "VZ login details"
+	./kubectl version | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
+	echo_stdout "VZ login details" 
 	echo_stdout "Username: verrazzano"
 	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d; echo_stdout
- 	sleep 5m
+	sleep 5m
+	
