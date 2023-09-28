@@ -62,6 +62,7 @@
 	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
 	sleep 5m
 	echo_stdout "Getting vz status"
+	echo_stdout vz status >> $AZ_SCRIPTS_OUTPUT_PATH
 	vz status >> $AZ_SCRIPTS_OUTPUT_PATH
 	status=`vz status`
 	echo_stdout ${status}
@@ -80,4 +81,5 @@
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d  >> $AZ_SCRIPTS_OUTPUT_PATH
 	sleep 5m
+	exit 1
 	
