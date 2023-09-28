@@ -39,7 +39,6 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
 		uri(const_scriptLocation, '${const_installVZCLI}${_artifactsLocationSasToken}')
 		uri(const_scriptLocation, '${const_utility}${_artifactsLocationSasToken}')
 	]
-    scriptContent: 'result=vz status > $AZ_SCRIPTS_OUTPUT_PATH'
     cleanupPreference: 'OnSuccess'
     retentionInterval: 'P1D'
     forceUpdateTag: utcValue

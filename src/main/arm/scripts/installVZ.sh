@@ -62,7 +62,7 @@
 	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
 	sleep 5m
 	echo_stdout "Getting vz status"
-	vz status >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
+	vz status >> $AZ_SCRIPTS_OUTPUT_PATH
 	status=`vz status`
 	echo_stdout ${status}
 	vz status | grep 'State: Ready'
@@ -78,5 +78,6 @@
 	echo_stdout "Username: verrazzano"
 	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
+	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d  >> $AZ_SCRIPTS_OUTPUT_PATH
 	sleep 5m
 	
