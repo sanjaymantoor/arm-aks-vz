@@ -35,7 +35,7 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
                 value: aksClusterName 
             }
             {
-                name: 'VZ_CRD_FILE_URL"
+                name: 'VZ_CRD_FILE_URL'
                 value: vzCRDFileURL
             }
 	]
