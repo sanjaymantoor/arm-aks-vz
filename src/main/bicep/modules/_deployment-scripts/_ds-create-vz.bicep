@@ -6,6 +6,7 @@ param aksClusterName string = ''
 param location string
 param identity object = {}
 param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-1.6.5-linux-amd64.tar.gz'
+param vzCRDFileURL string
 param azCliVersion string = ''
 param utcValue string = utcNow()
 var const_scriptLocation = uri(_artifactsLocation, 'scripts/')
@@ -33,6 +34,10 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
                 name: 'AKS_CLUSTER_NAME'
                 value: aksClusterName 
             }
+            {
+                name: 'VZ_CRD_FILE_URL"
+                value: vzCRDFileURL
+            }
 	]
     primaryScriptUri: uri(const_scriptLocation, '${const_installVZ}${_artifactsLocationSasToken}')
 	supportingScriptUris: [
@@ -45,4 +50,4 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     }
 }
 
-output result object = deploymentScript.properties.outputs
+output result object  = deploymentScript.properties.outputs

@@ -51,6 +51,8 @@ param createAKSCluster bool = true
 param location string
 @description('True to use latest supported Kubernetes version.')
 param useLatestSupportedAksVersion bool = true
+@description('verrazzano installation crd file')
+param vzCRDFileURL string
 @description('vz cli download uri')
 param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-1.6.5-linux-amd64.tar.gz'
 param utcValue string = utcNow()
@@ -104,6 +106,7 @@ module vzDeployment './modules/_deployment-scripts/_ds-create-vz.bicep' = {
     _artifactsLocation: _artifactsLocation
     _artifactsLocationSasToken: _artifactsLocationSasToken
     vzCliDownload: vzCliDownload
+    vzCRDFileURL: vzCRDFileURL
     location: location
     aksClusterName: name_aksClusterNameForSV 
     aksClusterRGName: name_aksClusterRGName 

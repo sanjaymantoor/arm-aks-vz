@@ -8,7 +8,7 @@
 	VZ_CLI_DOWNLOAD
 	AKS_CLUSTER_RESOURCEGROUP_NAME
 	AKS_CLUSTER_NAME
-	CRD_FILE_DATA
+	VZ_CRD_FILE_URL
 	END
 		)
 		echo_stdout ${usage}
@@ -32,7 +32,7 @@
 			echo_stderr "AKS_CLUSTER_NAME is required. "
 			usage 1
 		fi
-		if [ -z "$CRD_FILE_DATA" ]; then
+		if [ -z "$VZ_CRD_FILE_URL" ]; then
 			echo_stderr "Upload the vz crd data file"
 			usage 1
 		fi
@@ -56,9 +56,8 @@
 	echo_stdout "KUBECONFIG is set to $KUBECONFIG"
 	echo_stdout "Installing vz using vz cli"
 	echo "CRD File downloading from ${CRD_FILE_DATA}"
-	#CRD_FILE_DATA=https://raw.githubusercontent.com/sanjaymantoor/arm-aks-vz/master/samples/crd-pvc.yaml
-	wget $CRD_FILE_DATA
-	fileName=`echo $CRD_FILE_DATA | awk -F/ '{print $NF}'`
+	wget $VZ_CRD_FILE_URL
+	fileName=`echo $VZ_CRD_FILE_URL | awk -F/ '{print $NF}'`
 	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
 	sleep 5m
 	echo_stdout "Getting vz status"
