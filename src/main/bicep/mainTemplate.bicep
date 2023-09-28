@@ -58,7 +58,7 @@ var name_aksClusterNameForSV = '${aksClusterNamePrefix}${uniqueString(utcValue)}
 var name_aksClusterRGName = resourceGroup().name
 
 // To mitigate arm-ttk error: Type Mismatch: Parameter in nested template is defined as string, but the parent template defines it as bool.
-var const_azcliVersion = '2.41.0'
+var const_azcliVersion = '2.40.0'
 var const_hasTags = contains(resourceGroup(), 'tags')
 var obj_uamiForDeploymentScript = {
   type: 'UserAssigned'
