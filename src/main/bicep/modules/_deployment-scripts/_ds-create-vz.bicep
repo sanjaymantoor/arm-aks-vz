@@ -20,6 +20,7 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     identity: identity
     properties: {
         azCliVersion: azCliVersion
+        timeout: 'PT30M'
         environmentVariables: [
             {
                 name: 'VZ_CLI_DOWNLOAD'
@@ -40,11 +41,8 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
 		uri(const_scriptLocation, '${const_utility}${_artifactsLocationSasToken}')
 	]
     cleanupPreference: 'OnSuccess'
-    retentionInterval: 'P1D'
-    forceUpdateTag: utcValue,
-    "scriptContent": "
-        $DeploymentScriptOutputs['text'] = `cat ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log`
-    "    
+    retentionInterval: 'P1D',
+    forceUpdateTag: utcValue
     }
 }
 
