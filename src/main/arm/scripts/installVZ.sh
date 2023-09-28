@@ -59,19 +59,17 @@
 	wget $VZ_CRD_FILE_URL
 	fileName=`echo $VZ_CRD_FILE_URL | awk -F/ '{print $NF}'`
 	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
-	sleep 5m
+	sleep 3m
 	echo_stdout "Getting vz status"
 	echo_stdout vz status >> $AZ_SCRIPTS_OUTPUT_PATH
 	vz status >> $AZ_SCRIPTS_OUTPUT_PATH
-	status=`vz status`
-	echo_stdout ${status}
-	vz status | grep 'State: Ready'
+	vz status | grep 'Available Components: 26/26'
 	if [[ $? != 0 ]]; then
 		echo_stderr "VZ installation is not successful"
 	else
 		echo_stdout "VZ installation is successful"
 	fi 
-
+	vzStatus_jsonout
 	curl -LOqf "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" | true
 	./kubectl version | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	echo_stdout "VZ login details" 
@@ -79,6 +77,6 @@
 	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d  >> $AZ_SCRIPTS_OUTPUT_PATH
-	sleep 5m
+	sleep 2m
 	exit 1
 	
