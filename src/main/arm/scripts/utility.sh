@@ -35,7 +35,7 @@ function vzStatus_jsonout() {
   #  rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
   #  rancherUrl="\"rancherUrl\":\"$rancherUrl\""
   #  data="$consoleUrl\n$grafanaUrl\n$kialiUrl\n$openSearchDashboardsUrl\n$openSearchUrl\n$prometheusUrl\n$rancherUrl"
-   result=$(jq -n -c --arg consoleUrl "$consoleUrl" '{consoleUrl: $consoleUrl}'}
+   result=$(jq -n -c --arg consoleUrl "$consoleUrl" '{consoleUrl: $consoleUrl}')
    echo $result >$AZ_SCRIPTS_OUTPUT_PATH 
    rm -f vzStatusOut
 }
