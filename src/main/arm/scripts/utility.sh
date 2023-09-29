@@ -19,7 +19,6 @@ function echo_stdout() {
 function vzStatus_jsonout() {
     vz status > vzStatusOut
     consoleUrl=`cat vzStatusOut | grep consoleUrl| awk '{print ""$2""}'`
-    consoleUrl="\"$consoleUrl\""
   #  grafanaUrl=`cat vzStatusOut | grep grafanaUrl| awk '{print ""$2""}'`
   #  grafanaUrl="\"grafanaUrl\":\"$grafanaUrl\","
   #  keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
