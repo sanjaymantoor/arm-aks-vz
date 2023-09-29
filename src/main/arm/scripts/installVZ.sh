@@ -61,8 +61,7 @@
 	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
 	sleep 3m
 	echo_stdout "Getting vz status"
-	echo_stdout vz status >> $AZ_SCRIPTS_OUTPUT_PATH
-	vz status >> $AZ_SCRIPTS_OUTPUT_PATH
+	vz status >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	vz status | grep 'Available Components: 26/26'
 	if [[ $? != 0 ]]; then
 		echo_stderr "VZ installation is not successful"
