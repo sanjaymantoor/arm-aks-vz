@@ -20,21 +20,22 @@ function vzStatus_jsonout() {
     vz status > vzStatusOut
     consoleUrl=`cat vzStatusOut | grep consoleUrl| awk '{print ""$2""}'`
     consoleUrl="\"consoleUrl\":\"$consoleUrl\","
-    grafanaUrl=`cat vzStatusOut | grep grafanaUrl| awk '{print ""$2""}'`
-    grafanaUrl="\"grafanaUrl\":\"$grafanaUrl\","
-    keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-    keyCloakUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
-    kialiUrl=`cat vzStatusOut | grep kialiUrl| awk '{print ""$2""}'`
-    kialiUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
-    openSearchDashboardsUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-    openSearchDashboardsUrl="\"openSearchDashboardsUrl\":\"$openSearchDashboardsUrl\","
-    openSearchUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-    openSearchUrl="\"openSearchUrl\":\"$openSearchUrl\","
-    prometheusUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-    prometheusUrl="\"prometheusUrl\":\"$prometheusUrl\","
-    rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-    rancherUrl="\"rancherUrl\":\"$rancherUrl\""
-    data="$consoleUrl\n$grafanaUrl\n$kialiUrl\n$openSearchDashboardsUrl\n$openSearchUrl\n$prometheusUrl\n$rancherUrl"
-    jq -n -c --arg data "$data" '$data' >> $AZ_SCRIPTS_OUTPUT_PATH
-    rm -f vzStatusOut
+  #  grafanaUrl=`cat vzStatusOut | grep grafanaUrl| awk '{print ""$2""}'`
+  #  grafanaUrl="\"grafanaUrl\":\"$grafanaUrl\","
+  #  keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+  #  keyCloakUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
+  #  kialiUrl=`cat vzStatusOut | grep kialiUrl| awk '{print ""$2""}'`
+  #  kialiUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
+  #  openSearchDashboardsUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+  #  openSearchDashboardsUrl="\"openSearchDashboardsUrl\":\"$openSearchDashboardsUrl\","
+  #  openSearchUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+  #  openSearchUrl="\"openSearchUrl\":\"$openSearchUrl\","
+  #  prometheusUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
+  #  prometheusUrl="\"prometheusUrl\":\"$prometheusUrl\","
+  #  rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
+  #  rancherUrl="\"rancherUrl\":\"$rancherUrl\""
+  #  data="$consoleUrl\n$grafanaUrl\n$kialiUrl\n$openSearchDashboardsUrl\n$openSearchUrl\n$prometheusUrl\n$rancherUrl"
+   result=$(jq -n -c --arg consoleUrl "$consoleUrl" '{consoleUrl: $consoleUrl}'}
+   echo $result >$AZ_SCRIPTS_OUTPUT_PATH 
+   rm -f vzStatusOut
 }
