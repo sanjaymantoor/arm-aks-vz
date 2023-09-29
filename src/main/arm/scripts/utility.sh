@@ -19,20 +19,22 @@ function echo_stdout() {
 function vzStatus_jsonout() {
     vz status > vzStatusOut
     consoleUrl=`cat vzStatusOut | grep consoleUrl| awk '{print ""$2""}'`
-    jq -n -c --arg consoleUrl "$consoleUrl" '{$consoleUrl}' > $AZ_SCRIPTS_OUTPUT_PATH
+    consoleUrl="\"consoleUrl\":\"$consoleUrl\","
     grafanaUrl=`cat vzStatusOut | grep grafanaUrl| awk '{print ""$2""}'`
-    jq -n -c --arg grafanaUrl "$grafanaUrl" '{$grafanaUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    grafanaUrl="\"grafanaUrl\":\"$grafanaUrl\","
     keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-    jq -n -c --arg keyCloakUrl "$keyCloakUrl" '{$keyCloakUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    keyCloakUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
     kialiUrl=`cat vzStatusOut | grep kialiUrl| awk '{print ""$2""}'`
-    jq -n -c --arg kialiUrl "$kialiUrl" '{$kialiUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    kialiUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
     openSearchDashboardsUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-    jq -n -c --arg kialiUrl "$kialiUrl" '{$kialiUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    openSearchDashboardsUrl="\"openSearchDashboardsUrl\":\"$openSearchDashboardsUrl\","
     openSearchUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-    jq -n -c --arg openSearchUrl "$openSearchUrl" '{$openSearchUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    openSearchUrl="\"openSearchUrl\":\"$openSearchUrl\","
     prometheusUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-    jq -n -c --arg prometheusUrl "$prometheusUrl" '{$prometheusUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    prometheusUrl="\"prometheusUrl\":\"$prometheusUrl\","
     rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-    jq -n -c --arg prometheusUrl "$prometheusUrl" '{$prometheusUrl}' >> $AZ_SCRIPTS_OUTPUT_PATH
+    rancherUrl="\"rancherUrl\":\"$rancherUrl\""
+    data="$consoleUrl\n$grafanaUrl\n$kialiUrl\n$openSearchDashboardsUrl\n$openSearchUrl\n$prometheusUrl\n$rancherUrl"
+    jq -n -c --arg data "$data" '$data' >> $AZ_SCRIPTS_OUTPUT_PATH
     rm -f vzStatusOut
 }
