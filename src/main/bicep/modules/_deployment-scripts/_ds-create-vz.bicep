@@ -50,4 +50,4 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     }
 }
 
-output result string  = deploymentScript.properties.outputs.consoleUrl
+output result string  = string(deploymentScript.properties.outputs.consoleUrl)
