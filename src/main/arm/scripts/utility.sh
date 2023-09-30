@@ -39,8 +39,8 @@ function vzStatus_jsonout() {
    echo $result >$AZ_SCRIPTS_OUTPUT_PATH 
    result=$(jq -n -c --arg grafanaUrl "$grafanaUrl" '{grafanaUrl: $grafanaUrl}')
    echo $result >>$AZ_SCRIPTS_OUTPUT_PATH
-   echo "{" > $AZ_SCRIPTS_OUTPUT_PATH
-   echo "\"vzurls\":\"consoleUrl:https://verrazzano.default.52.226.223.169.nip.io,grafanaUrl:https://grafana.vmi.system.default.52.226.223.169.nip.io\"" >> $AZ_SCRIPTS_OUTPUT_PATH
-   echo "}" >> $AZ_SCRIPTS_OUTPUT_PATH
+   vzurls='https://verrazzano.default.52.226.223.169.nip.io'
+   result=$(jq -n -c --arg vzurls "$vzurls" '{vzurls: $vzurls}')
+   echo $result >$AZ_SCRIPTS_OUTPUT_PATH
    rm -f vzStatusOut
 }
