@@ -77,4 +77,4 @@
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	#./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d  >> $AZ_SCRIPTS_OUTPUT_PATH
 	sleep 2m
-	
+	exit 1
