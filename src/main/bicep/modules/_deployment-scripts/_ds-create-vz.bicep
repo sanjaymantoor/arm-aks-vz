@@ -50,4 +50,4 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     }
 }
 
-output accessEndPoints string  = string(deploymentScript.properties.outputs.verrazzano)
+output accessEndPoints string  = string(deploymentScript.properties.outputs.accessEndPoints)
