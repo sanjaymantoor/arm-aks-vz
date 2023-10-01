@@ -20,8 +20,7 @@ function vzStatus_jsonout() {
     vz status > vzStatusOut
     consoleUrl=`cat vzStatusOut | grep consoleUrl| awk '{print ""$2""}'`
     grafanaUrl=`cat vzStatusOut | grep grafanaUrl| awk '{print ""$2""}'`
-  #  grafanaUrl="\"grafanaUrl\":\"$grafanaUrl\","
-  #  keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+	keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
   #  keyCloakUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
   #  kialiUrl=`cat vzStatusOut | grep kialiUrl| awk '{print ""$2""}'`
   #  kialiUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
@@ -33,7 +32,7 @@ function vzStatus_jsonout() {
   #  prometheusUrl="\"prometheusUrl\":\"$prometheusUrl\","
   #  rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
   #  rancherUrl="\"rancherUrl\":\"$rancherUrl\""
-   vzurls="console:$consoleUrl\n$grafanaUrl:grafanaUrl\n"
+   vzurls="consoleUrl:$consoleUrl,grafanaUrl:grafanaUrl,keyCloakUrl:$keyCloakUrl"
    result=$(jq -n -c --arg vzurls "$vzurls" '{vzurls: $vzurls}')
    echo_stdout $result
    echo $result >$AZ_SCRIPTS_OUTPUT_PATH 
