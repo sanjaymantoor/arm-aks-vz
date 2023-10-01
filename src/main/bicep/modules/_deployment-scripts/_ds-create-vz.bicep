@@ -50,4 +50,4 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     }
 }
 
-output consoleUrl string  = string(deploymentScript.properties.outputs.consoleUrl)
+output vzurls string  = string(deploymentScript.properties.outputs.vzurls)
