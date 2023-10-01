@@ -21,17 +21,15 @@ function vzStatus_jsonout() {
     consoleUrl=`cat vzStatusOut | grep consoleUrl| awk '{print ""$2""}'`
     grafanaUrl=`cat vzStatusOut | grep grafanaUrl| awk '{print ""$2""}'`
 	keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-  #  kialiUrl=`cat vzStatusOut | grep kialiUrl| awk '{print ""$2""}'`
-  #  kialiUrl="\"keyCloakUrl\":\"$keyCloakUrl\","
-  #  openSearchDashboardsUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-  #  openSearchDashboardsUrl="\"openSearchDashboardsUrl\":\"$openSearchDashboardsUrl\","
-  #  openSearchUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
-  #  openSearchUrl="\"openSearchUrl\":\"$openSearchUrl\","
-  #  prometheusUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-  #  prometheusUrl="\"prometheusUrl\":\"$prometheusUrl\","
-  #  rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-  #  rancherUrl="\"rancherUrl\":\"$rancherUrl\""
-   verrazzano="{consoleUrl:$consoleUrl}  {grafanaUrl:$grafanaUrl}   {keyCloakUrl:$keyCloakUrl} "
+  	kialiUrl=`cat vzStatusOut | grep kialiUrl| awk '{print ""$2""}'`
+    openSearchDashboardsUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+    openSearchUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+	prometheusUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
+	rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
+    verrazzano="{consoleUrl:$consoleUrl}  {grafanaUrl:$grafanaUrl}   {keyCloakUrl:$keyCloakUrl} 
+   			  {kialiUrl:$kialiUrl} {openSearchDashboardsUrl:$openSearchDashboardsUrl}
+   			  {openSearchUrl:$openSearchUrl} {prometheusUrl:$prometheusUrl}
+   			  {rancherUrl:$rancherUrl}"
    result=$(jq -n -c --arg verrazzano "$verrazzano" '{verrazzano: $verrazzano}')
    echo_stdout $result
    echo $result >$AZ_SCRIPTS_OUTPUT_PATH 
