@@ -50,4 +50,4 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     }
 }
 
-output Verrazzano_URLs string  = string(deploymentScript.properties.outputs.Verrazzano_URLs)
+output verrazzano string  = string(deploymentScript.properties.outputs.verrazzano)
