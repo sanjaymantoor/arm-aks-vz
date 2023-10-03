@@ -26,10 +26,7 @@ function vzStatus_jsonout() {
     openSearchUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
 	prometheusUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
 	rancherUrl=`cat vzStatusOut | grep prometheusUrl| awk '{print ""$2""}'`
-    accessEndPoints="{consoleUrl:$consoleUrl}  {grafanaUrl:$grafanaUrl}   {keyCloakUrl:$keyCloakUrl} 
-   			  {kialiUrl:$kialiUrl} {openSearchDashboardsUrl:$openSearchDashboardsUrl}
-   			  {openSearchUrl:$openSearchUrl} {prometheusUrl:$prometheusUrl}
-   			  {rancherUrl:$rancherUrl}"
+    accessEndPoints="{consoleUrl=$consoleUrl},   {grafanaUrl=$grafanaUrl},   {keyCloakUrl=$keyCloakUrl},   {kialiUrl=$kialiUrl},   {openSearchDashboardsUrl=$openSearchDashboardsUrl},   {openSearchUrl=$openSearchUrl},   {prometheusUrl=$prometheusUrl},   {rancherUrl=$rancherUrl}"
    result=$(jq -n -c --arg accessEndPoints "$accessEndPoints" '{accessEndPoints: $accessEndPoints}')
    echo_stdout $result
    echo $result >$AZ_SCRIPTS_OUTPUT_PATH 

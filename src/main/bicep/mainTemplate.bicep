@@ -122,3 +122,4 @@ module vzDeployment './modules/_deployment-scripts/_ds-create-vz.bicep' = {
 output aksClusterName string = createAKSCluster ? aksClusterDeployment.outputs.aksClusterName : aksClusterName
 output aksClusterRGName string = createAKSCluster ? resourceGroup().name : aksClusterRGName
 output accessEndPoints string  = vzDeployment.outputs.accessEndPoints
+output consoleUrl string = vzDeployment.outputs.consoleUrl
