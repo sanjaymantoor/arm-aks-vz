@@ -68,7 +68,7 @@
 	do
 		echo "Waiting for verrazzanon installation to complete"
 		sleep 30s
-		if [[ $attempt -gt 10 ]];
+		if [[ $attempt -gt 10 ]]; then
 			break
 		fi 
 		attempt=`expr($attempt+1)`
