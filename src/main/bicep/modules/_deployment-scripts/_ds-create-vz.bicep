@@ -13,6 +13,10 @@ var const_scriptLocation = uri(_artifactsLocation, 'scripts/')
 var const_installVZCLI = 'installVZCLI.sh'
 var const_installVZ = 'installVZ.sh'
 var const_utility = 'utility.sh'
+var delimiters = [
+  '='
+  ','
+]
 
 resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     name: 'ds-install-VZ'
@@ -51,5 +55,5 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
 }
 
 output accessEndPoints string  = string(deploymentScript.properties.outputs.accessEndPoints)
-output consoleUrl string  = first(split(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),'='),1),','))
-output grafanaUrl string  = first(split(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),'='),2),','))
+output consoleUrl string  = first(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),delimiters),1))
+output grafanaUrl string  = first(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),delimiters),2))
