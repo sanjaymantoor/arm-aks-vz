@@ -59,9 +59,21 @@
 	wget $VZ_CRD_FILE_URL
 	fileName=`echo $VZ_CRD_FILE_URL | awk -F/ '{print $NF}'`
 	vz install -f $fileName >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log 2>&1
-	sleep 3m
+	sleep 1m
 	echo_stdout "Getting vz status"
 	vz status >> ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
+	attempt=1
+	vz status | grep 'Available Components: 26/26'
+	while [[ $? != 0 ]]
+	do
+		echo "Waiting for verrazzanon installation to complete"
+		sleep 30s
+		if [[ $attempt -gt 10 ]];
+			break
+		fi 
+		attempt=`expr($attempt+1)`
+		vz status | grep 'Available Components: 26/26'
+	done
 	vz status | grep 'Available Components: 26/26'
 	if [[ $? != 0 ]]; then
 		echo_stderr "VZ installation is not successful"
@@ -76,4 +88,4 @@
 	echo_stdout "Password:"
 	./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	#./kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 -d  >> $AZ_SCRIPTS_OUTPUT_PATH
-	sleep 2m
+	sleep 1m

@@ -123,3 +123,4 @@ output aksClusterName string = createAKSCluster ? aksClusterDeployment.outputs.a
 output aksClusterRGName string = createAKSCluster ? resourceGroup().name : aksClusterRGName
 output accessEndPoints string  = vzDeployment.outputs.accessEndPoints
 output consoleUrl string = vzDeployment.outputs.consoleUrl
+output grafanaUrl string = vzDeployment.outputs.grafanaUrl
