@@ -57,4 +57,4 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
 
 output accessEndPoints string  = string(deploymentScript.properties.outputs.accessEndPoints)
 output consoleUrl string  = first(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),delimiters),1))
-output grafanaUrl string  = first(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),delimiters),3))
+output grafanaUrl string  = first(skip(split(string(deploymentScript.properties.outputs.accessEndPoints),delimiters),4))
