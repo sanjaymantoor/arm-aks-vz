@@ -50,7 +50,6 @@
 	export scriptDir="$(cd "$(dirname "${script}")" && pwd)"
 	source ${scriptDir}/utility.sh
 	./installVZCLI.sh ${VZ_CLI_DOWNLOAD}
-
 	connect_aks_cluster
 	export KUBECONFIG=$HOME/.kube/config
 	echo_stdout "KUBECONFIG is set to $KUBECONFIG"
