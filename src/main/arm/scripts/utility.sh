@@ -98,7 +98,7 @@ function updateVZConsolePswd() {
 	echo_stdout "Starting password reset for Verrazzano console user ${vzConsoleUser}"
 	HEADERS="-H 'Accept: application/json' -H 'Content-Type: application/x-www-form-urlencoded' -H 'cache-control: no-cache'"
 	echo_stdout "Getting keycloak password"
-	keyCloakPswd=$(kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 --decode; echo)
+	keyCloakPswd=$(kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 -d; echo)
 	checkStatus $? "Unable to get keycloak password"
 	echo_stdout "Getting keycloak access token"
 	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
