@@ -83,7 +83,8 @@ function waitForReady() {
 # Download and install dependencies
 function installUtilities() {
 	curl -LOqf "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" | true
-	./kubectl version | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
+	cp kubectl /bin/.
+	kubectl version | tee -a ${AZ_SCRIPTS_PATH_OUTPUT_DIRECTORY}/debug.log
 	checkStatus $? "kubectl is not installed or not available"
 }
 
