@@ -55,6 +55,9 @@ param useLatestSupportedAksVersion bool = true
 param vzCRDFileURL string
 @description('vz cli download uri')
 param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-1.6.5-linux-amd64.tar.gz'
+@description('Verrazzano console password')
+@secure()
+param vzConsolePassword string
 param utcValue string = utcNow()
 var name_aksClusterNameForSV = '${aksClusterNamePrefix}${uniqueString(utcValue)}'
 var name_aksClusterRGName = resourceGroup().name
@@ -107,6 +110,7 @@ module vzDeployment './modules/_deployment-scripts/_ds-create-vz.bicep' = {
     _artifactsLocationSasToken: _artifactsLocationSasToken
     vzCliDownload: vzCliDownload
     vzCRDFileURL: vzCRDFileURL
+    vzConsolePassword: vzConsolePassword
     location: location
     aksClusterName: name_aksClusterNameForSV 
     aksClusterRGName: name_aksClusterRGName 

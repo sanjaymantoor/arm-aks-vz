@@ -6,13 +6,14 @@
 			cat <<-END
 	Specify the following ENV variables:
 	VZ_CLI_DOWNLOAD
+	VZ_CONSOLE_PSW
 	AKS_CLUSTER_RESOURCEGROUP_NAME
 	AKS_CLUSTER_NAME
 	VZ_CRD_FILE_URL
 	END
 		)
 		echo_stdout ${usage}
-		if [ $1 -lt 4 ]; then
+		if [ $1 -lt 5 ]; then
 			echo_stderr ${usage}
 			exit 1
 		fi
@@ -36,12 +37,18 @@
 			echo_stderr "Upload the vz crd data file"
 			usage 1
 		fi
-	   
+		if [ -z "$VZ_CONSOLE_PSW" ]; then
+			echo_stderr "Provide verrazzano console password"
+			usage 1
+		fi
 	}
 
 	# Main script
 	export script="${BASH_SOURCE[0]}"
 	export scriptDir="$(cd "$(dirname "${script}")" && pwd)"
+	# Temporarily users are hardcoded
+	VZ_CONSOLE_USER="verrazzano"
+	KEYCLOAK_ADMIN_USER="keycloakadmin"
 	source ${scriptDir}/utility.sh
 	installUtilities
 	./installVZCLI.sh ${VZ_CLI_DOWNLOAD}
@@ -57,3 +64,4 @@
 	checkStatus $? "VZ installation is not successful"
 	echo_stdout "VZ installation is successful"
 	vzStatus_jsonout
+	updateVZConsolePswd $VZ_CONSOLE_USER $VZ_CONSOLE_PSW $KEYCLOAK_ADMIN_USER

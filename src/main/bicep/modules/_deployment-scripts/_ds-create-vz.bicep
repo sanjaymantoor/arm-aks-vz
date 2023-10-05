@@ -7,6 +7,8 @@ param location string
 param identity object = {}
 param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-1.6.5-linux-amd64.tar.gz'
 param vzCRDFileURL string
+@secure()
+param vzConsolePassword string
 param azCliVersion string = ''
 param utcValue string = utcNow()
 var const_scriptLocation = uri(_artifactsLocation, 'scripts/')
@@ -30,6 +32,10 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
             {
                 name: 'VZ_CLI_DOWNLOAD'
                 value: vzCliDownload
+            }
+            {
+                name: 'VZ_CONSOLE_PSW'
+                secureValue: vzConsolePassword
             }
             {
                 name: 'AKS_CLUSTER_RESOURCEGROUP_NAME'
