@@ -105,6 +105,7 @@ function updateVZConsolePswd() {
 	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
 	checkStatus $? "Unable to get keycloak access token"
 	token=`jq '.access_token' token.json `
+	token=`echo $token | sed 's|\"||g'`
 	auth="Authorization: Bearer $token"
 	echo_stdout "Getting verrazzano-system users list"
 	curl -skX GET $keyCloakUrl/auth/admin/realms/verrazzano-system/users  -H "${auth}" > id.json
