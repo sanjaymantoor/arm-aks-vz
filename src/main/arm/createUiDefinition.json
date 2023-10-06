@@ -157,21 +157,17 @@
                             },
                             {
                                 "name": "crdFile",
-                                "type": "Microsoft.Common.FileUpload",
-                                "label": "CRD file upload",
-                                "toolTip": "Upload crd file",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "CRD file URL",
+                                "defaultValue": "https://raw.githubusercontent.com/sanjaymantoor/arm-aks-vz/master/samples/crd-pvc.yaml",
+                                "toolTip": "Provide crd yaml file url",
+                                "placeholder": "",
+                                "multiLine": false,
                                 "constraints": {
-                                    "required": true,
-                                    "accept": ".doc,.docx,.xml,application/msword"
-                                },
-                                "options": {
-                                    "multiple": false,
-                                    "uploadMode": "file",
-                                    "openMode": "text",
-                                    "encoding": "UTF-8"
+                                  "required": true
                                 },
                                 "visible": true
-                            }
+                              }
                         ]
                     },
 					{
@@ -225,7 +221,9 @@
             "aksClusterName": "[last(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'))]",
             "aksClusterRGName": "[last(take(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'), 5))]",
             "location": "[location()]",
-            "vmSize": "[steps('section_aks').clusterInfo.nodeVMSizeSelector]"
+            "vzConsolePassword": "[steps('section_aks').VZConsoleCredentials.vzConsolePassword]",
+            "vmSize": "[steps('section_aks').clusterInfo.nodeVMSizeSelector]",
+            "crdFile": "[steps('section_aks').clusterInfo.crdFile]"
         }
     }
 }
