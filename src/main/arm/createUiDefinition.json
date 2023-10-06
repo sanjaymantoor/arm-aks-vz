@@ -223,7 +223,7 @@
             "location": "[location()]",
             "vzConsolePassword": "[steps('section_aks').VZConsoleCredentials.vzConsolePassword]",
             "vmSize": "[steps('section_aks').clusterInfo.nodeVMSizeSelector]",
-            "crdFile": "[steps('section_aks').clusterInfo.crdFile]"
+            "vzCRDFileURL": "[steps('section_aks').clusterInfo.crdFile]"
         }
     }
 }
