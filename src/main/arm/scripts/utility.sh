@@ -113,6 +113,10 @@ function updateVZConsolePswd() {
 	echo_stdout "Getting id for user ${vzConsoleUser}"
 	vzConsoleUserID=`cat id.json | jq -r '.[0].id'`
 	echo_stdout "Resetting password for user ${vzConsoleUser}"
+	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
+	token=`jq '.access_token' token.json `
+	token=`echo $token | sed 's|\"||g'`
+	auth="Authorization: Bearer $token"
 	curl -k -X PUT $keyCloakUrl/auth/admin/realms/verrazzano-system/users/${vzConsoleUserID}/reset-password $HEADERS -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${vzConsolePassword}\"}"
 	checkStatus $? "Unable to reset password"	 
 	echo_stdout "Updating the verrazzano secret"
