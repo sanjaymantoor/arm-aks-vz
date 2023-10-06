@@ -72,8 +72,8 @@
         ],
         "steps": [
             {
-                "name": "section_aks",
-                "label": "AKS",
+                "name": "section_vz_aks",
+                "label": "VZ",
                 "subLabel": {
                     "preValidation": "Provide required info for AKS cluster configuration",
                     "postValidation": "Done"
@@ -173,12 +173,54 @@
                                 "visible": true
                             }
                         ]
+                    },
+					{
+                        "name": "VZConsoleCredentials",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Verrazano Console Credentials",
+                        "elements": [
+							{
+								"name": "vzConsoleUsername",
+								"type": "Microsoft.Common.DropDown",
+								"label": "Username",
+								"defaultValue": "[verrazzano]",
+                                "multiselect": false,
+                                "selectall": true,
+                                "placholder": "",
+                                "multiLine": true,
+								"visible": true,
+                                "constraints": {
+                                    "allowedValues": [
+                                      {
+                                        "label": "verrazzano",
+                                        "description": "",
+                                        "value": "verrazzano"
+                                      }
+                                    ],
+                                    "required": true
+                                }
+							},
+							{
+                                "name": "vzConsolePassword",
+                                "type": "Microsoft.Common.PasswordBox",
+                                "label": {
+                                    "password": "Password",
+                                    "confirmPassword": "Confirm password"
+                                },
+                                "toolTip": "Password for Verrazzano Console",
+                                "visible": "true",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{12,}$",
+                                    "validationMessage": "The password must contain at least 12 characters, with at least 1 uppercase letter, 1 lowercase letter and 1 number, and special characters are not allowed."
+                                }
+                            }
+                        ]
                     }
                 ]
             }
         ],
         "outputs": {
-            "acrName": "[last(split(steps('section_aks').imageInfo.oracleAcrSelector.id, '/'))]",
             "aksAgentPoolNodeCount": "[steps('section_aks').clusterInfo.aksNodeCount]",
             "aksClusterName": "[last(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'))]",
             "aksClusterRGName": "[last(take(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'), 5))]",
