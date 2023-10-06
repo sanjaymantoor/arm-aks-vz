@@ -100,27 +100,37 @@ function updateVZConsolePswd() {
 	HEADERS="-H 'Accept: application/json' -H 'Content-Type: application/x-www-form-urlencoded' -H 'cache-control: no-cache'"
 	echo_stdout "Getting keycloak password"
 	keyCloakPswd=$(kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 -d; echo)
+	echo_stdout "keyCloakPswd=$keyCloakPswd"
 	checkStatus $? "Unable to get keycloak password"
 	echo_stdout "Getting keycloak access token"
+	echo_stdout curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli"  
 	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
 	checkStatus $? "Unable to get keycloak access token"
 	token=`jq '.access_token' token.json `
 	token=`echo $token | sed 's|\"||g'`
 	auth="Authorization: Bearer $token"
+	echo_stdout "auth=$auth"
 	echo_stdout "Getting verrazzano-system users list"
+	echo_stdout curl -skX GET $keyCloakUrl/auth/admin/realms/verrazzano-system/users  -H "${auth}" > id.json 
 	curl -skX GET $keyCloakUrl/auth/admin/realms/verrazzano-system/users  -H "${auth}" > id.json
 	checkStatus $? "Unable to get keycloak users list"
 	echo_stdout "Getting id for user ${vzConsoleUser}"
 	vzConsoleUserID=`cat id.json | jq -r '.[0].id'`
+	echo_stdout "vzConsoleUserID=$vzConsoleUserID"
 	echo_stdout "Resetting password for user ${vzConsoleUser}"
+	# Get again access token in case it is expired
 	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
 	token=`jq '.access_token' token.json `
 	token=`echo $token | sed 's|\"||g'`
 	auth="Authorization: Bearer $token"
-	curl -k -X PUT $keyCloakUrl/auth/admin/realms/verrazzano-system/users/${vzConsoleUserID}/reset-password $HEADERS -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${vzConsolePassword}\"}"
+	echo_stdout "auth=$auth"
+	echo_stdout curl -k -X PUT "$keyCloakUrl/auth/admin/realms/verrazzano-system/users/${vzConsoleUserID}/reset-password" -H "Content-Type: application/json" -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${vzConsolePassword}\"}" 
+	curl -k -X PUT "$keyCloakUrl/auth/admin/realms/verrazzano-system/users/${vzConsoleUserID}/reset-password" -H "Content-Type: application/json" -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${vzConsolePassword}\"}"
 	checkStatus $? "Unable to reset password"	 
 	echo_stdout "Updating the verrazzano secret"
 	base64vzConsolePassword=`echo -n ${vzConsolePassword} | base64`
+	echo_stdout "base64vzConsolePassword=$base64vzConsolePassword"
+	echo_stdout kubectl patch secret verrazzano -n verrazzano-system -p "{\"data\": {\"password\": \"${base64vzConsolePassword}\"}}"
 	kubectl patch secret verrazzano -n verrazzano-system -p "{\"data\": {\"password\": \"${base64vzConsolePassword}\"}}"
 	checkStatus $? "Unable to update verrazzano secret"
 	echo_stdout "Completed password reset for Verrazzano console user ${vzConsoleUser}"
