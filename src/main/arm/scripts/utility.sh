@@ -113,7 +113,8 @@ function updateVZConsolePswd() {
 	echo_stdout "Getting id for user ${vzConsoleUser}"
 	vzConsoleUserID=`cat id.json | jq -r '.[0].id'`
 	echo_stdout "Resetting password for user ${vzConsoleUser}"
-	curl -k -X PUT $keyCloakUrl/auth/admin/realms/verrazzano-system/users/${vzConsoleUserID}/reset-password $HEADERS -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${vzConsolePassword}\"}" 
+	curl -k -X PUT $keyCloakUrl/auth/admin/realms/verrazzano-system/users/${vzConsoleUserID}/reset-password $HEADERS -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${vzConsolePassword}\"}"
+	checkStatus $? "Unable to reset password"	 
 	echo_stdout "Updating the verrazzano secret"
 	base64vzConsolePassword=`echo -n ${vzConsolePassword} | base64`
 	kubectl patch secret verrazzano -n verrazzano-system -p "{\"data\": {\"password\": \"${base64vzConsolePassword}\"}}"
