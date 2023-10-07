@@ -72,7 +72,7 @@
         ],
         "steps": [
             {
-                "name": "section_vz_aks",
+                "name": "section_aks",
                 "label": "VZ",
                 "subLabel": {
                     "preValidation": "Provide required info for AKS cluster configuration",
@@ -220,8 +220,8 @@
             "aksAgentPoolNodeCount": "[steps('section_aks').clusterInfo.aksNodeCount]",
             "aksClusterName": "[last(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'))]",
             "aksClusterRGName": "[last(take(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'), 5))]",
-            "location": "[location()]",
             "vzConsolePassword": "[steps('section_aks').VZConsoleCredentials.vzConsolePassword]",
+            "location": "[location()]",
             "vmSize": "[steps('section_aks').clusterInfo.nodeVMSizeSelector]",
             "vzCRDFileURL": "[steps('section_aks').clusterInfo.crdFile]"
         }

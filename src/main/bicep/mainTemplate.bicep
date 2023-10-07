@@ -58,6 +58,9 @@ param vzCliDownload string = 'https://github.com/verrazzano/verrazzano/releases/
 @description('Verrazzano console password')
 @secure()
 param vzConsolePassword string
+@description('Keycloak admin password')
+@secure()
+param keyCloakPassword string
 param utcValue string = utcNow()
 var name_aksClusterNameForSV = '${aksClusterNamePrefix}${uniqueString(utcValue)}'
 var name_aksClusterRGName = resourceGroup().name
@@ -111,6 +114,7 @@ module vzDeployment './modules/_deployment-scripts/_ds-create-vz.bicep' = {
     vzCliDownload: vzCliDownload
     vzCRDFileURL: vzCRDFileURL
     vzConsolePassword: vzConsolePassword
+    keyCloakPassword: keyCloakPassword
     location: location
     aksClusterName: name_aksClusterNameForSV 
     aksClusterRGName: name_aksClusterRGName 

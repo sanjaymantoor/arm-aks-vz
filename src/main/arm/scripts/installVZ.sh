@@ -7,13 +7,14 @@
 	Specify the following ENV variables:
 	VZ_CLI_DOWNLOAD
 	VZ_CONSOLE_PSW
+	KEYCLOAK_ADMIN_PSW
 	AKS_CLUSTER_RESOURCEGROUP_NAME
 	AKS_CLUSTER_NAME
 	VZ_CRD_FILE_URL
 	END
 		)
 		echo_stdout ${usage}
-		if [ $1 -lt 5 ]; then
+		if [ $1 -lt 6 ]; then
 			echo_stderr ${usage}
 			exit 1
 		fi
@@ -41,6 +42,11 @@
 			echo_stderr "Provide verrazzano console password"
 			usage 1
 		fi
+		if [ -z "$KEYCLOAK_ADMIN_PSW" ]; then
+			echo_stderr "Provide keycloak admin password"
+			usage 1
+		fi
+		
 	}
 
 	# Main script
@@ -65,3 +71,4 @@
 	echo_stdout "VZ installation is successful"
 	vzStatus_jsonout
 	updateVZConsolePswd $VZ_CONSOLE_USER $VZ_CONSOLE_PSW $KEYCLOAK_ADMIN_USER
+	updateKeycloakAdminPswd $KEYCLOAK_ADMIN_USER $KEYCLOAK_ADMIN_PSW

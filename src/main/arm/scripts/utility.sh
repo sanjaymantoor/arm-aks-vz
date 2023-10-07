@@ -135,3 +135,41 @@ function updateVZConsolePswd() {
 	checkStatus $? "Unable to update verrazzano secret"
 	echo_stdout "Completed password reset for Verrazzano console user ${vzConsoleUser}"
 }
+
+
+# Update Keycloak admin password
+function updateKeycloakAdminPswd() {
+	vz status > vzStatusOut
+	keyCloakUrl=`cat vzStatusOut | grep keyCloakUrl| awk '{print ""$2""}'`
+	keyCloakUser=$1
+	keyCloakNewPassword=$2
+	HEADERS="-H 'Accept: application/json' -H 'Content-Type: application/x-www-form-urlencoded' -H 'cache-control: no-cache'"
+	keyCloakPswd=$(kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 -d; echo)
+	checkStatus $? "Unable to get keycloak password"
+	echo_stdout "Starting password reset for ${keyCloakUser} user"
+	echo_stdout "Getting keycloak access token"
+	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
+	checkStatus $? "Unable to get keycloak access token"
+	token=`jq '.access_token' token.json `
+	token=`echo $token | sed 's|\"||g'`
+	auth="Authorization: Bearer $token"
+	echo_stdout "auth=$auth"
+	echo_stdout "Getting keycloak admin users list"
+	curl -skX GET $keyCloakUrl/auth/admin/realms/master/users  -H "${auth}" > id.json
+	checkStatus $? "Unable to get keycloak users list"
+	echo_stdout "Getting id for user ${keyCloakUser}"
+	keyCloakAdminUserID=`cat id.json | jq -r '.[0].id'`
+	echo_stdout "Resetting password for user ${keyCloakUser}"
+	# Get again access token in case it is expired
+	curl -k -X POST $keyCloakUrl/auth/realms/master/protocol/openid-connect/token $HEADERS -d "grant_type=password&username=${keyCloakUser}&password=${keyCloakPswd}&client_id=admin-cli" | grep access_token > token.json
+	token=`jq '.access_token' token.json `
+	token=`echo $token | sed 's|\"||g'`
+	auth="Authorization: Bearer $token"
+	curl -k -X PUT "$keyCloakUrl/auth/admin/realms/master/users/${keyCloakAdminUserID}/reset-password" -H "Content-Type: application/json" -H "${auth}" --data "{ \"type\": \"password\", \"temporary\": false, \"value\": \"${keyCloakNewPassword}\"}"
+	checkStatus $? "Unable to reset password"	 
+	echo_stdout "Updating the keycloak secret"
+	base64keyCloakPassword=`echo -n ${keyCloakNewPassword} | base64`
+	kubectl patch secret keycloak-http -n keycloak -p "{\"data\": {\"password\": \"${base64keyCloakPassword}\"}}"
+	checkStatus $? "Unable to update keycloak secret"
+	echo_stdout "Completed password reset for ${keyCloakUser} user"
+}
