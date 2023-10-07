@@ -212,6 +212,49 @@
                                 }
                             }
                         ]
+                    },
+                    					{
+                        "name": "KeycloakCredentials",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Keycloak admin Credentials",
+                        "elements": [
+							{
+								"name": "keyCloakUsername",
+								"type": "Microsoft.Common.DropDown",
+								"label": "Username",
+								"defaultValue": "[keycloakadmin]",
+                                "multiselect": false,
+                                "selectall": true,
+                                "placholder": "",
+                                "multiLine": true,
+								"visible": true,
+                                "constraints": {
+                                    "allowedValues": [
+                                      {
+                                        "label": "keycloakadmin",
+                                        "description": "",
+                                        "value": "keycloakadmin"
+                                      }
+                                    ],
+                                    "required": true
+                                }
+							},
+							{
+                                "name": "keyCloakPassword",
+                                "type": "Microsoft.Common.PasswordBox",
+                                "label": {
+                                    "password": "Password",
+                                    "confirmPassword": "Confirm password"
+                                },
+                                "toolTip": "Password for Keycloak admin",
+                                "visible": "true",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{12,}$",
+                                    "validationMessage": "The password must contain at least 12 characters, with at least 1 uppercase letter, 1 lowercase letter and 1 number, and special characters are not allowed."
+                                }
+                            }
+                        ]
                     }
                 ]
             }
@@ -221,6 +264,7 @@
             "aksClusterName": "[last(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'))]",
             "aksClusterRGName": "[last(take(split(steps('section_aks').clusterInfo.aksClusterSelector.id, '/'), 5))]",
             "vzConsolePassword": "[steps('section_aks').VZConsoleCredentials.vzConsolePassword]",
+            "keyCloakPassword": "[steps('section_aks').KeycloakCredentials.keyCloakPassword]",
             "location": "[location()]",
             "vmSize": "[steps('section_aks').clusterInfo.nodeVMSizeSelector]",
             "vzCRDFileURL": "[steps('section_aks').clusterInfo.crdFile]"
