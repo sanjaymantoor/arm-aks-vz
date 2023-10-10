@@ -1,6 +1,6 @@
-# About Verrazzano installation on K8s
+# About Verrazzano installation on AKS
 
-This repository contains scripts which installs verrazzano on K8s using vz cli.
+This repository contains scripts which installs verrazzano on AKS using vz cli.
 ## Verrazzano on AKS overview
 ![Verrazzano on AKS Overview](https://github.com/sanjaymantoor/arm-aks-vz/blob/master/samples/Verazzano_AKS.png)
 
